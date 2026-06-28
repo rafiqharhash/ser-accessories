@@ -5,6 +5,9 @@ export interface IAnnouncement extends Document {
   title: string;
   message: string;
   active: boolean;
+  link?: string;
+  backgroundColor: string;
+  textColor: string;
   startDate?: Date;
   endDate?: Date;
   createdAt: Date;

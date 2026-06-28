@@ -4,7 +4,8 @@ import { Metadata } from "next";
 import { ProductClientWrapper } from "@/components/product/ProductClientWrapper";
 import { ProductTabs } from "@/components/product/ProductTabs";
 import { RelatedProducts } from "@/components/product/RelatedProducts";
-import { ProductReviews } from "@/components/product/ProductReviews";
+import { ProductReviews } from "@/components/storefront/product/ProductReviews";
+import { getProductReviews } from "@/actions/review.actions";
 
 // Generate Metadata for SEO
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -37,11 +38,8 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
 
   const relatedProducts = await getRelatedProducts(product.id, product.category.slug);
 
-  // Mock Reviews Data
-  const reviews = [
-    { id: "1", author: "Amina Y.", rating: 5, date: "October 12, 2025", content: "Absolutely stunning dress.", verified: true },
-    { id: "2", author: "Sarah H.", rating: 4, date: "September 28, 2025", content: "Great quality, slightly long for me.", verified: true },
-  ];
+  // Real Reviews Data
+  const reviews = await getProductReviews(product.id);
 
   // Generate JSON-LD Structured Data
   const jsonLd = {
@@ -77,7 +75,7 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
         <ProductTabs description={product.description} materials={product.materials} />
         
         {/* Reviews */}
-        <ProductReviews reviews={reviews} averageRating={4.5} totalReviews={12} />
+        <ProductReviews productId={product.id} initialReviews={reviews} />
       </div>
 
       {/* Related Products */}

@@ -51,8 +51,8 @@ export const metadata: Metadata = {
   },
 };
 
-import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
+import { GlobalBanner } from "@/components/layout/GlobalBanner";
 
 export default function RootLayout({
   children,
@@ -63,7 +63,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
       <body className="min-h-screen bg-background font-sans antialiased flex flex-col">
         <GlobalProviders>
-          <AnnouncementBar />
+          <GlobalBanner />
           <Navbar />
           <main className="flex-grow">
             {children}

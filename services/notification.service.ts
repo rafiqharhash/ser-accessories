@@ -1,28 +1,60 @@
-import { IOrder } from "@/types/models/order.types";
+import { connectToDatabase } from "@/lib/db";
+import { Notification } from "@/models/notification.model";
 
-/**
- * Notification Service Stub
- * Prepared for future integration with Resend (Emails) and Twilio/Vodafone (SMS).
- */
-export const NotificationService = {
-  async sendOrderConfirmation(order: IOrder) {
-    // Example future implementation:
-    // await resend.emails.send({
-    //   from: 'SER Luxury <orders@serluxury.com>',
-    //   to: order.customerEmail, // Note: Order model might need email added later if not just phone
-    //   subject: `Order Confirmation - ${order.orderNumber}`,
-    //   react: OrderConfirmationTemplate({ order })
-    // });
-    console.log(`[Notification Stub] Sending confirmation for order: ${order.orderNumber}`);
-  },
-
-  async sendStatusUpdate(order: IOrder, newStatus: string) {
-    // Example future SMS implementation:
-    // await twilio.messages.create({
-    //   body: `Your SER order ${order.orderNumber} is now ${newStatus}.`,
-    //   from: process.env.TWILIO_PHONE,
-    //   to: order.phone
-    // });
-    console.log(`[Notification Stub] Notifying customer ${order.phone} of status change to: ${newStatus}`);
+export class NotificationService {
+  static async create(payload: {
+    type: string;
+    severity?: "info" | "warning" | "critical";
+    message: string;
+    link?: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    metadata?: any;
+  }) {
+    await connectToDatabase();
+    return await Notification.create({
+      ...payload,
+      severity: payload.severity || "info"
+    });
   }
-};
+
+  static async notifyNewOrder(orderId: string, orderNumber: string, totalAmount: number) {
+    return this.create({
+      type: "NEW_ORDER",
+      severity: "info",
+      message: `New Order #${orderNumber} placed for EGP ${totalAmount}.`,
+      link: `/admin/orders/${orderId}`,
+      metadata: { orderId, orderNumber, totalAmount }
+    });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static async sendStatusUpdate(order: any, status: string) {
+    return this.create({
+      type: "ORDER_STATUS_UPDATE",
+      severity: "info",
+      message: `Order #${order.orderNumber} status changed to ${status}.`,
+      link: `/admin/orders/${order._id}`,
+      metadata: { orderId: order._id, status }
+    });
+  }
+
+  static async notifyLowStock(productName: string, productId: string, currentStock: number) {
+    return this.create({
+      type: "LOW_STOCK",
+      severity: "warning",
+      message: `${productName} is running low on stock (${currentStock} left).`,
+      link: `/admin/products/${productId}`,
+      metadata: { productId, currentStock }
+    });
+  }
+
+  static async notifyNewReview(productName: string, productId: string, rating: number) {
+    return this.create({
+      type: "NEW_REVIEW",
+      severity: "info",
+      message: `New ${rating}-star review on ${productName} awaiting approval.`,
+      link: `/admin/reviews`,
+      metadata: { productId, rating }
+    });
+  }
+}

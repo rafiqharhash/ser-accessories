@@ -1,8 +1,9 @@
 "use client";
 
 import { useAdminStore } from "@/store/useAdminStore";
-import { Menu, Search, Bell } from "lucide-react";
+import { Search, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { NotificationBell } from "@/components/admin/layout/NotificationBell";
 
 export function AdminTopbar() {
   const { toggleSidebar, setCommandPaletteOpen } = useAdminStore();
@@ -28,10 +29,7 @@ export function AdminTopbar() {
       </div>
 
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="sm" className="w-8 h-8 p-0 rounded-full relative">
-          <Bell className="w-5 h-5" />
-          <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full" />
-        </Button>
+        <NotificationBell />
       </div>
     </header>
   );
