@@ -58,6 +58,13 @@ const orderSchema = new Schema<IOrder>(
       enum: ["pending", "verified", "rejected", "refunded"],
       default: "pending",
     },
+    history: [
+      {
+        status: { type: String, required: true },
+        comment: String,
+        timestamp: { type: Date, default: Date.now },
+      }
+    ],
   },
   { timestamps: true }
 );

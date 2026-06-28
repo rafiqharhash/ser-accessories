@@ -39,6 +39,11 @@ export interface IOrder extends Document {
   products: IOrderItem[];
   orderStatus: "pending" | "confirmed" | "preparing" | "shipped" | "delivered" | "cancelled" | "returned";
   paymentStatus: "pending" | "verified" | "rejected" | "refunded";
+  history: {
+    status: string;
+    comment?: string;
+    timestamp: Date;
+  }[];
   createdAt: Date;
   updatedAt: Date;
 }
