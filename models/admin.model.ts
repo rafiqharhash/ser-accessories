@@ -1,12 +1,5 @@
-import mongoose, { Schema, Document } from "mongoose";
-
-export interface IAdmin extends Document {
-  email: string;
-  passwordHash: string;
-  role: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import mongoose, { Schema } from "mongoose";
+import { IAdmin } from "@/types/models/admin.types";
 
 const adminSchema = new Schema<IAdmin>(
   {
@@ -26,6 +19,7 @@ const adminSchema = new Schema<IAdmin>(
       default: "admin",
       enum: ["admin", "superadmin"],
     },
+    lastLogin: Date,
   },
   { timestamps: true }
 );
