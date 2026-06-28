@@ -1,26 +1,27 @@
-export default function Home() {
+import { Hero } from "@/components/home/Hero";
+import { FeaturedCollections } from "@/components/home/FeaturedCollections";
+import { NewArrivals } from "@/components/home/NewArrivals";
+import { BestSellers } from "@/components/home/BestSellers";
+import { ShopByCategory } from "@/components/home/ShopByCategory";
+import { PromoBanner } from "@/components/home/PromoBanner";
+import { Features } from "@/components/home/Features";
+import { Reviews } from "@/components/home/Reviews";
+import { InstagramGallery } from "@/components/home/InstagramGallery";
+import { Newsletter } from "@/components/home/Newsletter";
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center">
-      <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight mb-6">
-        Discover the <span className="text-primary italic">Essence</span> of Luxury
-      </h1>
-      <p className="text-muted-foreground max-w-2xl text-lg md:text-xl mb-10">
-        SER presents an exclusive collection of premium fashion designed for those who appreciate unparalleled elegance and sophisticated minimalism.
-      </p>
-      <div className="flex gap-4">
-        <a 
-          href="/shop" 
-          className="bg-primary text-primary-foreground px-8 py-4 text-sm font-medium tracking-widest uppercase hover:bg-primary/90 transition-all hover:scale-105"
-        >
-          Shop Collection
-        </a>
-        <a 
-          href="/new-arrivals" 
-          className="border border-border bg-transparent text-foreground px-8 py-4 text-sm font-medium tracking-widest uppercase hover:border-primary transition-all hover:scale-105"
-        >
-          New Arrivals
-        </a>
-      </div>
-    </div>
+    <>
+      <Hero />
+      <FeaturedCollections />
+      <NewArrivals />
+      <BestSellers />
+      <ShopByCategory />
+      <PromoBanner />
+      <Features />
+      <Reviews />
+      <InstagramGallery />
+      <Newsletter />
+    </>
   );
 }
