@@ -1,149 +1,68 @@
-import { getDashboardStats } from "@/actions/dashboard.actions";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, CreditCard, DollarSign, Package, AlertTriangle, XOctagon } from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Suspense } from "react";
+import { DateRangePicker } from "@/components/admin/analytics/DateRangePicker";
+import { ExportReportButton } from "@/components/admin/analytics/ExportReportButton";
+import { KPICards } from "@/components/admin/analytics/KPICards";
+import { RevenueChartWrapper } from "@/components/admin/analytics/RevenueChartWrapper";
+import { GovernorateChartWrapper } from "@/components/admin/analytics/GovernorateChartWrapper";
+import { TopProductsTable } from "@/components/admin/analytics/TopProductsTable";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminDashboardPage() {
-  const stats = await getDashboardStats();
-
+export default function AdminDashboardPage({ searchParams }: { searchParams: { start?: string; end?: string } }) {
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      
-      {/* KPI Cards Row 1 */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Today&apos;s Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">EGP {stats.todaysRevenue.toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground">Updated live</p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Today&apos;s Orders</CardTitle>
-            <CreditCard className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.todaysOrdersCount}</div>
-            <p className="text-xs text-muted-foreground">Orders placed since midnight</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Orders</CardTitle>
-            <Activity className="h-4 w-4 text-orange-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.pendingOrdersCount}</div>
-            <p className="text-xs text-muted-foreground">Awaiting processing</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-destructive">Out of Stock</CardTitle>
-            <XOctagon className="h-4 w-4 text-destructive" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.outOfStockCount}</div>
-            <p className="text-xs text-muted-foreground">Products requiring restock</p>
-          </CardContent>
-        </Card>
+    <div className="p-8 space-y-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-playfair mb-1">Analytics Dashboard</h1>
+          <p className="text-sm text-muted-foreground">Real-time business intelligence and store metrics.</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <DateRangePicker />
+          <ExportReportButton />
+        </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        
-        {/* Latest Orders Table */}
-        <Card className="lg:col-span-4">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Latest Orders</CardTitle>
-            <Link href="/admin/orders" className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 px-3">
-              View All
-            </Link>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-              {stats.latestOrders.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No recent orders.</p>
-              ) : (
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                stats.latestOrders.map((order: any) => (
-                  <div key={order._id} className="flex items-center justify-between border-b border-border pb-4 last:border-0 last:pb-0">
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium leading-none">{order.orderNumber}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {order.customerName}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-sm font-medium">EGP {order.total}</div>
-                      <div className={`text-xs px-2 py-1 rounded-full border ${order.orderStatus === 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-muted text-muted-foreground'}`}>
-                        {order.orderStatus}
-                      </div>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </CardContent>
-        </Card>
+      {/* KPIs Streamed Independently */}
+      <Suspense fallback={
+        <div className="grid gap-4 md:grid-cols-3">
+          <Skeleton className="h-32 w-full rounded-xl" />
+          <Skeleton className="h-32 w-full rounded-xl" />
+          <Skeleton className="h-32 w-full rounded-xl" />
+        </div>
+      }>
+        <KPICards searchParams={searchParams} />
+      </Suspense>
 
-        {/* Inventory Warnings */}
-        <Card className="lg:col-span-3">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="w-5 h-5 text-orange-500" /> Inventory Alerts
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
-              <div>
-                <h4 className="text-sm font-semibold text-destructive mb-3">Out of Stock ({stats.outOfStockCount})</h4>
-                {stats.outOfStockProducts.length === 0 ? (
-                  <p className="text-xs text-muted-foreground">All products have stock.</p>
-                ) : (
-                  <div className="space-y-2">
-                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                    {stats.outOfStockProducts.map((p: any) => (
-                      <div key={p._id} className="flex justify-between text-sm">
-                        <span className="truncate pr-4">{p.name}</span>
-                        <span className="text-destructive font-semibold">0</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              
-              <div>
-                <h4 className="text-sm font-semibold text-orange-600 mb-3">Low Stock ({stats.lowStockCount})</h4>
-                {stats.lowStockProducts.length === 0 ? (
-                  <p className="text-xs text-muted-foreground">No low stock warnings.</p>
-                ) : (
-                  <div className="space-y-2">
-                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                    {stats.lowStockProducts.map((p: any) => (
-                      <div key={p._id} className="flex justify-between text-sm">
-                        <span className="truncate pr-4">{p.name}</span>
-                        <span className="text-orange-600 font-semibold">{p.stockMode === 'single' ? p.stock : 'Var.'}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 lg:grid-cols-6 gap-6">
+        {/* Revenue Chart Streamed */}
+        <div className="lg:col-span-4">
+          <Suspense fallback={<Skeleton className="h-[450px] w-full rounded-xl" />}>
+            <RevenueChartWrapper searchParams={searchParams} />
+          </Suspense>
+        </div>
+
+        {/* Governorates Streamed */}
+        <div className="lg:col-span-2">
+          <Suspense fallback={<Skeleton className="h-[450px] w-full rounded-xl" />}>
+            <GovernorateChartWrapper searchParams={searchParams} />
+          </Suspense>
+        </div>
       </div>
-      
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Top Products Streamed */}
+        <div className="lg:col-span-2">
+          <Suspense fallback={<Skeleton className="h-[500px] w-full rounded-xl" />}>
+            <TopProductsTable searchParams={searchParams} />
+          </Suspense>
+        </div>
+        
+        {/* Empty Placeholder for Future Widgets (e.g., Coupon Usage) */}
+        <div className="lg:col-span-2 space-y-6">
+           {/* Add low stock or other widgets here later */}
+        </div>
+      </div>
     </div>
   );
 }
