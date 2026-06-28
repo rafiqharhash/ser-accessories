@@ -20,8 +20,23 @@ const settingsSchema = new Schema<ISettings>(
     maintenanceMode: { type: Boolean, default: false },
     websiteName: { type: String, default: "SER | سِر" },
     logo: mediaSchema,
+    favicon: mediaSchema,
+    heroImages: [mediaSchema],
     contactEmail: String,
     contactPhone: String,
+    address: String,
+    socialLinks: {
+      facebook: String,
+      instagram: String,
+      tiktok: String,
+      twitter: String,
+    },
+    seo: {
+      defaultTitle: String,
+      defaultDescription: String,
+      defaultOpenGraphImage: mediaSchema,
+    },
+    lowStockThreshold: { type: Number, default: 5 },
   },
   { timestamps: true }
 );

@@ -57,7 +57,14 @@ export class OrderService {
         throw new APIError(`Minimum purchase of ${coupon.minimumPurchase} required for this coupon`, 400);
       }
 
-      discount = (subtotal * coupon.percentage) / 100;
+      if (coupon.discountType === "fixed") {
+        discount = coupon.discountValue;
+      } else {
+        discount = (subtotal * coupon.discountValue) / 100;
+      }
+
+      if (discount > subtotal) discount = subtotal;
+
       couponId = coupon._id;
 
       // Increment coupon usage

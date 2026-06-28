@@ -7,7 +7,13 @@ export interface IProductVariant {
   size: string;
   material?: string;
   sku: string;
+  barcode?: string;
+  priceOverride?: number;
+  salePriceOverride?: number;
   stock: number;
+  reservedStock: number;
+  availableStock: number;
+  image?: IMedia;
   active: boolean;
 }
 
@@ -15,6 +21,7 @@ export interface IProduct extends Document {
   _id: Types.ObjectId;
   name: string;
   slug: string;
+  slugHistory?: string[];
   description: string;
   shortDescription?: string;
   price: number;
@@ -39,9 +46,21 @@ export interface IProduct extends Document {
   stockMode: "single" | "variant";
   stock: number;
   variantStock: IProductVariant[];
-  metaTitle?: string;
-  metaDescription?: string;
-  status: "draft" | "published" | "archived";
+  seo?: {
+    title?: string;
+    description?: string;
+    canonicalUrl?: string;
+    openGraphImage?: IMedia;
+  };
+  status: "draft" | "published" | "archived" | "scheduled";
+  scheduledPublishDate?: Date;
+  version: number;
+  historyLog?: {
+    version: number;
+    changedAt: Date;
+    changedBy: string;
+    summary: string;
+  }[];
   deletedAt?: Date | null;
   deletedBy?: Types.ObjectId;
   createdAt: Date;

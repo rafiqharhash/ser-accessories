@@ -3,7 +3,8 @@ import { Document, Types } from "mongoose";
 export interface ICoupon extends Document {
   _id: Types.ObjectId;
   code: string;
-  percentage: number;
+  discountType: "percentage" | "fixed";
+  discountValue: number;
   minimumPurchase?: number;
   expirationDate?: Date;
   maxUsage?: number;

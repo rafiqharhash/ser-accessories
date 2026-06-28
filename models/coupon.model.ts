@@ -4,7 +4,8 @@ import { ICoupon } from "@/types/models/coupon.types";
 const couponSchema = new Schema<ICoupon>(
   {
     code: { type: String, required: true, unique: true, uppercase: true, trim: true },
-    percentage: { type: Number, required: true, min: 0, max: 100 },
+    discountType: { type: String, enum: ["percentage", "fixed"], default: "percentage" },
+    discountValue: { type: Number, required: true, min: 0 },
     minimumPurchase: { type: Number, default: 0 },
     expirationDate: Date,
     maxUsage: Number,
