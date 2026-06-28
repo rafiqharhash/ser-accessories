@@ -51,6 +51,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { GlobalBanner } from "@/components/layout/GlobalBanner";
 

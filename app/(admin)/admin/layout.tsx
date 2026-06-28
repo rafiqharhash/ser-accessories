@@ -2,6 +2,8 @@ import { AdminSidebar } from "@/components/admin/layout/AdminSidebar";
 import { AdminTopbar } from "@/components/admin/layout/AdminTopbar";
 import { CommandPalette } from "@/components/admin/layout/CommandPalette";
 
+export const dynamic = "force-dynamic";
+
 export default function AdminLayout({
   children,
 }: {
