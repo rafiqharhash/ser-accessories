@@ -5,7 +5,7 @@ import { Settings } from "@/models/settings.model";
 import { AuditLog } from "@/models/audit-log.model";
 import { revalidatePath } from "next/cache";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// Removed unused eslint-disable
 export async function getStoreSettings() {
   await connectToDatabase();
   let settings = await Settings.findOne().lean();

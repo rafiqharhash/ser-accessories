@@ -34,7 +34,6 @@ export function NotificationBell() {
     // Poll every 60 seconds
     const interval = setInterval(fetchNotifications, 60000);
     return () => clearInterval(interval);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleMarkAsRead = async (id: string, e: React.MouseEvent) => {

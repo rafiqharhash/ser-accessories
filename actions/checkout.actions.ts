@@ -57,14 +57,15 @@ export async function getPaymentSettings() {
 }
 
 // Validate Coupon
-export async function validateCoupon(code: string, subtotal: number) {
+export async function validateCoupon(code: string) {
   try {
     // Mock Validation
     if (code.toUpperCase() === "WELCOME10") {
       return { success: true, discountPercentage: 10, code: "WELCOME10" };
     }
     return { success: false, error: "Invalid or expired coupon" };
-  } catch (error) {
+  } catch (err) {
+    console.error(err);
     return { success: false, error: "Error validating coupon" };
   }
 }
@@ -91,13 +92,12 @@ export async function submitOrder(
     }
 
     // 5. Apply Shipping & Coupon to get final Total
-    const _shippingCost = await getShippingRate(validatedData.governorate);
-    const _discount = 0;
+    await getShippingRate(validatedData.governorate);
     
     if (couponCode) {
-      const couponValid = await validateCoupon(couponCode, 0); // pass subtotal in real app
+      const couponValid = await validateCoupon(couponCode);
       if (couponValid.success && couponValid.discountPercentage) {
-        // _discount = serverSubtotal * (couponValid.discountPercentage / 100);
+        // Apply discount logic here in production
       }
     }
 
@@ -110,9 +110,9 @@ export async function submitOrder(
       orderNumber: mockOrderNumber 
     };
 
-  } catch (_error) {
-    console.error("Order submission failed:", _error);
-    if (_error instanceof z.ZodError) {
+  } catch (error) {
+    console.error("Order submission failed:", error);
+    if (error instanceof z.ZodError) {
       return { success: false, error: "Invalid form data submitted." };
     }
     return { success: false, error: "Failed to process order. Please try again." };

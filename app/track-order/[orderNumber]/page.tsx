@@ -2,7 +2,6 @@ import { getOrderTrackingDetails } from "@/actions/tracking.actions";
 import { CheckCircle2, Circle, Clock, Package, ShieldCheck, AlertCircle, XCircle, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 const TIMELINE_STEPS = ["pending", "confirmed", "preparing", "shipped", "delivered"];
 

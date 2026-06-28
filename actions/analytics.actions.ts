@@ -3,7 +3,6 @@
 import { connectToDatabase } from "@/lib/db";
 import { Order } from "@/models/order.model";
 import { Product } from "@/models/product.model";
-import { Category } from "@/models/category.model";
 import { dateRangeValidator } from "@/utils/validators/analytics.validator";
 import { subDays, differenceInDays } from "date-fns";
 

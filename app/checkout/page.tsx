@@ -82,7 +82,7 @@ export default function CheckoutPage() {
   const handleApplyCoupon = async () => {
     if (!couponInput) return;
     setIsCheckingCoupon(true);
-    const result = await validateCoupon(couponInput, subtotal);
+    const result = await validateCoupon(couponInput);
     if (result.success && result.discountPercentage) {
       setCouponCode(result.code!);
       setDiscount(subtotal * (result.discountPercentage / 100));
@@ -117,7 +117,8 @@ export default function CheckoutPage() {
       } else {
         toast.error(response.error);
       }
-    } catch (_error) {
+    } catch (error) {
+      console.error(error);
       toast.error("An unexpected error occurred.");
     } finally {
       setIsSubmitting(false);

@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
-import { Plus, Search, MoreHorizontal, Trash2, Edit2, Copy, Eye } from "lucide-react";
+import { Plus, Search, MoreHorizontal, Edit2, Eye } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,6 +30,8 @@ interface ProductsTableClientProps {
 }
 
 export function ProductsTableClient({ products, total, page, limit, currentQuery, currentStatus }: ProductsTableClientProps) {
+  void page;
+  void limit;
   const router = useRouter();
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [isCreatingDraft, setIsCreatingDraft] = useState(false);

@@ -16,7 +16,7 @@ interface ProductReviewsProps {
 }
 
 export function ProductReviews({ productId, initialReviews }: ProductReviewsProps) {
-  const [reviews, setReviews] = useState(initialReviews);
+  const [reviews] = useState(initialReviews);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(false);
   

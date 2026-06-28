@@ -160,6 +160,7 @@ export function ProductFormClient({ product }: ProductFormClientProps) {
               </div>
               <div className="space-y-2">
                 <Label>Base Stock</Label>
+                {/* eslint-disable-next-line react-hooks/incompatible-library */}
                 <Input type="number" {...form.register("stock")} disabled={form.watch("stockMode") === "variant"} />
               </div>
             </div>

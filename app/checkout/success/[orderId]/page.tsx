@@ -1,6 +1,5 @@
 import { CheckCircle2, ChevronRight, Package, Clock, ShieldCheck } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default async function OrderSuccessPage({

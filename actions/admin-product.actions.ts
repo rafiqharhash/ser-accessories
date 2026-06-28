@@ -35,7 +35,7 @@ export async function createProductDraft(adminId: string = "Administrator") {
   return { success: true, id: draft._id.toString() };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// Removed eslint-disable as it was unused
 export async function saveProduct(id: string, payload: unknown, adminId: string = "Administrator") {
   try {
     await connectToDatabase();

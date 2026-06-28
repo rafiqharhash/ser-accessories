@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Plus, Edit2, Trash2, Search } from "lucide-react";
-import Image from "next/image";
+
 
 interface CategoryManagerProps {
   type: "category" | "collection";

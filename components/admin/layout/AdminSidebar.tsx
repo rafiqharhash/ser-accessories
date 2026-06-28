@@ -8,7 +8,6 @@ import {
   LayoutDashboard, 
   Package, 
   ShoppingCart, 
-  Users, 
   Settings, 
   Tags, 
   FolderTree, 

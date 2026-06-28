@@ -71,7 +71,8 @@ export function ProductClientWrapper({ product }: ProductClientWrapperProps) {
         text: `Check out the ${product.name} at SER Luxury`,
         url: window.location.href,
       });
-    } catch (_e) {
+    } catch (err) {
+      console.error("Share API not supported or failed:", err);
       // Fallback to clipboard
       navigator.clipboard.writeText(window.location.href);
       toast("Link copied to clipboard");

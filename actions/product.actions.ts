@@ -46,7 +46,10 @@ export async function getProductBySlug(slug: string) {
   }
 }
 
-export async function getRelatedProducts(_productId: string, _categorySlug: string) {
+export async function getRelatedProducts(productId: string, categorySlug: string) {
+  // Use parameters to satisfy linter for mock implementation
+  void productId;
+  void categorySlug;
   // Returns mock related products
   return Array.from({ length: 4 }).map((_, i) => ({
     id: `related-${i}`,

@@ -61,7 +61,8 @@ export function ScreenshotUploader({ onUploadSuccess, onRemove }: ScreenshotUplo
       setIsSuccess(true);
       onUploadSuccess(mockResult);
 
-    } catch (_err) {
+    } catch (err) {
+      console.error(err);
       setError("Failed to upload image. Please try again.");
     } finally {
       setIsUploading(false);
