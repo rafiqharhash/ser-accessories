@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
+import { GlobalProviders } from "@/components/providers";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
@@ -51,6 +51,9 @@ export const metadata: Metadata = {
   },
 };
 
+import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
+import { ScrollToTop } from "@/components/layout/ScrollToTop";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -59,18 +62,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
       <body className="min-h-screen bg-background font-sans antialiased flex flex-col">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <GlobalProviders>
+          <AnnouncementBar />
           <Navbar />
-          <main className="flex-grow pt-20">
+          <main className="flex-grow">
             {children}
           </main>
           <Footer />
-        </ThemeProvider>
+          <ScrollToTop />
+        </GlobalProviders>
       </body>
     </html>
   );
