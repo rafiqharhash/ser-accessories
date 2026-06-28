@@ -10,6 +10,7 @@ import { QuantitySelector } from "./QuantitySelector";
 import { toast } from "sonner";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useCartStore } from "@/store/useCartStore";
 
 interface ProductClientWrapperProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,6 +31,8 @@ export function ProductClientWrapper({ product }: ProductClientWrapperProps) {
   const currentStock = currentVariant ? currentVariant.stock : (selectedSize ? 0 : product.stock);
   const isOutOfStock = currentStock === 0;
 
+  const addItem = useCartStore((state) => state.addItem);
+
   const handleAddToCart = () => {
     if (product.stockMode === "variants" && (!selectedColor || !selectedSize)) {
       toast.error("Please select a color and size.");
@@ -38,13 +41,27 @@ export function ProductClientWrapper({ product }: ProductClientWrapperProps) {
 
     setIsAdding(true);
     
-    // Simulate add to cart API call
+    // Add to Zustand store
+    addItem({
+      productId: product.id,
+      name: product.name,
+      slug: product.slug,
+      sku: product.sku,
+      image: product.featuredImage,
+      price: product.price,
+      oldPrice: product.oldPrice,
+      selectedColor: selectedColor || undefined,
+      selectedSize: selectedSize || undefined,
+      quantity,
+      maxStock: currentStock,
+    });
+
     setTimeout(() => {
       toast.success(`${product.name} added to cart`, {
         description: `${quantity}x ${selectedColor || ""} ${selectedSize || ""}`.trim()
       });
       setIsAdding(false);
-    }, 800);
+    }, 400); // Shorter timeout for snappier feel
   };
 
   const handleShare = async () => {

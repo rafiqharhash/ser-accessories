@@ -36,6 +36,7 @@ const orderSchema = new Schema<IOrder>(
     address: { type: String, required: true },
     notes: String,
     paymentMethod: { type: String, enum: ["instapay", "vodafone_cash", "cod"], required: true },
+    paymentReference: String,
     paymentScreenshot: {
       publicId: String,
       secureUrl: String,

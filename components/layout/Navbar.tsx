@@ -7,8 +7,10 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useState, useEffect } from "react";
 import { SearchOverlay } from "@/components/layout/SearchOverlay";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCartStore } from "@/store/useCartStore";
 
 export function Navbar() {
+  const totalItems = useCartStore((state) => state.getTotalItems());
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -95,9 +97,11 @@ export function Navbar() {
             </Link>
             <Link href="/cart" aria-label="Cart" className="hover:text-primary transition-colors relative">
               <ShoppingBag className="w-5 h-5" />
-              <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                0
-              </span>
+              {totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
             </Link>
           </div>
         </div>

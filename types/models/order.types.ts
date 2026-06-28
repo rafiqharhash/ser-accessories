@@ -25,6 +25,7 @@ export interface IOrder extends Document {
   address: string;
   notes?: string;
   paymentMethod: "instapay" | "vodafone_cash" | "cod";
+  paymentReference?: string;
   paymentScreenshot?: {
     publicId: string;
     secureUrl: string;
